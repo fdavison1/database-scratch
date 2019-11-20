@@ -7,13 +7,13 @@ DROP TABLE IF EXISTS projects;
 CREATE TABLE tasks (
     task_id SERIAL PRIMARY KEY,
     content VARCHAR,
-    task_index VARCHAR(5)
+    droppable_id VARCHAR(5)
 );
 
 CREATE TABLE projects (
     project_id SERIAL PRIMARY KEY, 
     title VARCHAR(30),
-    project_index VARCHAR(5)
+    droppable_id VARCHAR(5)
 );
 
 --dummy data
