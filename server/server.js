@@ -10,6 +10,7 @@ app.use(express.json())
 
 //endpoint
 app.get('/api/tasks', c.getTasks)
+app.get('/api/taskOrder', c.getTaskOrder)
 
 app.get('/api/projects', c.getProjects)
 

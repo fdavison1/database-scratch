@@ -11,6 +11,7 @@ display: none`
 export default class Dash extends React.Component {
     state = {
         tasks: [],
+        taskOrder: [],
         projects: []
     }
 
@@ -40,9 +41,39 @@ export default class Dash extends React.Component {
             })
     }
 
+    getTaskOrder(){
+        axios.get('/api/taskOrder')
+        .then(res => {
+            console.log(res.data)
+            this.setState({
+                taskOrder: res.data
+            })
+        })
+    }
+
 
     onDragEnd = result => {
-        //
+        console.log(result)
+        const { destination, source, draggableId } = result
+
+        if(!destination){
+            return 
+        }
+
+        if(
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ){
+            return
+        }
+
+       console.log(draggableId)
+       console.log(this.state.tasks)
+       const task = this.state.tasks.find(el => el.droppable_id === draggableId)
+       console.log(task)
+
+
+
     }
 
 
@@ -78,8 +109,16 @@ export default class Dash extends React.Component {
 
                 
         
-
-
+                <button
+                
+                onClick={()=> this.getTaskOrder()}>taskOrder</button>
+                <br/>
+                {/* test: {this.state.taskOrder.map(el => el.task_id)} */}
+                test: {this.state.taskOrder.map((el, index) => {
+                    // this.state.taskOrder.splice(index, 1)
+                    this.state.taskOrder.splice(index, 1, el.task_id)
+                    console.log (this.state.taskOrder)
+                })}
 
 
 
