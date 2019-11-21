@@ -18,7 +18,7 @@ CREATE TABLE projects (
 
 --dummy data
 
-INSERT INTO tasks (content, task_index)
+INSERT INTO tasks (content, droppable_id)
 VALUES 
 ('take out the trash', '1'),
 ('walk the cat', '2'), 
