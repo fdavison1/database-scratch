@@ -28,3 +28,9 @@ VALUES
 ('do laundry','6');
 
 SELECT * FROM tasks;
+
+INSERT INTO projects (title, droppable_id)
+VALUES 
+('project-1', '1');
+
+SELECT * FROM projects;

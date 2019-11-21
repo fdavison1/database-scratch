@@ -1,10 +1,17 @@
 require('dotenv').config()
 const express = require('express')
-const { SERVER_PORT, CONNECTION_STRING } = process.env
 const massive = require('massive')
+const { SERVER_PORT, CONNECTION_STRING } = process.env
+const c = require('./controller')
 
 const app = express()
 app.use(express.json())
+
+
+//endpoint
+app.get('/api/tasks', c.getTasks)
+
+app.get('/api/projects', c.getProjects)
 
 
 massive(CONNECTION_STRING).then(databaseConnection => {
