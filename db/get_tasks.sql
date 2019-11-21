@@ -1,1 +1,2 @@
-SELECT * FROM tasks;
+SELECT * FROM tasks
+ORDER BY droppable_id;

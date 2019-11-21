@@ -28,7 +28,18 @@ module.exports = {
         // console.log(req.body[0])
         // return console.log(req.body[0].task_id)
         // return console.log(req.body.length)
-        return console.log(req.body)
+        // console.log(req.body)
+        // return
+        const db = req.app.get('db')
+        const { task_id, droppable_id } = req.body
+        // console.log(task_id, droppable_id)
+        // return
+        db.update_task( task_id, droppable_id)
+        .then(result => {
+            console.log(result)
+            res.status(200).send(result)
+        })
+
       
 
 

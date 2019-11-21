@@ -121,9 +121,15 @@ export default class Dash extends React.Component {
         for (let i=0; i < this.state.tasks.length; i++){
             if (this.state.tasks[i].task_id !== 
                 this.state.tasks[i].droppable_id){
-                   axios.put('/api/tasks', this.state.tasks[i]) 
+                   axios.put('/api/tasks', this.state.tasks[i])
+                   .then(res => {
+                       this.setState({
+                           tasks: res.data
+                       })
+                   }) 
                 }
         }
+        this.getTasks()
        
     }
 
