@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { Droppable } from 'react-beautiful-dnd'
 import Task from './Task'
 
 
@@ -13,28 +14,34 @@ const TaskList = styled.div`
 font-weight: 200`
 
 
-export default class Project extends React.Component{
+export default class Project extends React.Component {
     state = {
 
     }
-    render(){
-        console.log(this.props.tasks)
-        const {tasks} =this.props
+    render() {
+        // console.log(this.props.tasks)
+        const { tasks } = this.props
         return (
-        
-        
-        <Container>
 
-            <Title>{this.props.project.title}</Title>
-            <TaskList>
+            <Droppable droppableId={this.props.project.droppable_id}>
+                {(provided) => (
+                    <Container>
 
-            {tasks.map(task => <Task key={task.task_id} task={task} />)}
+                        <Title>{this.props.project.title}</Title>
+                        <TaskList
+                            ref={provided.innerRef}
+                            {...provided.droppableProps}
+                        >
 
-            </TaskList>
-        
-            
+                            {tasks.map((task, index) => <Task key={task.task_id} task={task} index={index}/>)}
+                            {provided.placeholder}
+                        </TaskList>
 
-        </Container>
+
+
+                    </Container>
+                )}
+            </Droppable>
         )
     }
 }
