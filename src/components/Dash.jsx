@@ -41,14 +41,28 @@ export default class Dash extends React.Component {
             })
     }
 
-    getTaskOrder(){
+    getTaskOrder() {
         axios.get('/api/taskOrder')
-        .then(res => {
-            console.log(res.data)
-            this.setState({
-                taskOrder: res.data
+            .then(res => {
+
+                res.data.map((el, index) => {
+                    res.data.splice(index, 1, el.task_id)
+                    // console.log(res.data)
+                    
+                })
+
+                console.log(res.data)
+                this.state.taskOrder = res.data
+
+
+             
+                this.setState({
+                    taskOrder: this.state.taskOrder
             })
-        })
+            console.log(this.state.taskOrder)
+            })
+
+        
     }
 
 
@@ -56,21 +70,21 @@ export default class Dash extends React.Component {
         console.log(result)
         const { destination, source, draggableId } = result
 
-        if(!destination){
-            return 
-        }
-
-        if(
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
-        ){
+        if (!destination) {
             return
         }
 
-       console.log(draggableId)
-       console.log(this.state.tasks)
-       const task = this.state.tasks.find(el => el.droppable_id === draggableId)
-       console.log(task)
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return
+        }
+
+        console.log(draggableId)
+        console.log(this.state.tasks)
+        const task = this.state.tasks.find(el => el.droppable_id === draggableId)
+        console.log(task)
 
 
 
@@ -85,42 +99,41 @@ export default class Dash extends React.Component {
             <div>
 
                 <DragDropContext
-                onDragEnd={this.onDragEnd}>
+                    onDragEnd={this.onDragEnd}>
 
-                {(this.state.projects.length > 0) && 
+                    {(this.state.projects.length > 0) &&
 
-// <h1>test:{this.state.projects.length}</h1>}
+                        // <h1>test:{this.state.projects.length}</h1>}
 
-<div>
+                        <div>
 
-                {this.state.projects.map((projectID, index )=> {
-                    //const project ?
-                    const project = this.state.projects[index]
-                    //    console.log(project)
-                    
-                    //const tasks ?
-                    const tasks = this.state.tasks.map((taskId, index) => this.state.tasks[index])
-                    // console.log(index)
-                    return <Project key={project.project_id} project={project} tasks={tasks} />
-                })}
+                            {this.state.projects.map((projectID, index) => {
+                                //const project ?
+                                const project = this.state.projects[index]
+                                //    console.log(project)
 
-                </div>} 
+                                //const tasks ?
+                                const tasks = this.state.tasks.map((taskId, index) => this.state.tasks[index])
+                                // console.log(index)
+                                return <Project key={project.project_id} project={project} tasks={tasks} />
+                            })}
+
+                        </div>}
                 </DragDropContext>
 
-                
-        
+
+
                 <button
-                
-                onClick={()=> this.getTaskOrder()}>taskOrder</button>
-                <br/>
+
+                    onClick={() => this.getTaskOrder()}>taskOrder</button>
+                <br />
                 {/* test: {this.state.taskOrder.map(el => el.task_id)} */}
-                test: {this.state.taskOrder.map((el, index) => {
-                    // this.state.taskOrder.splice(index, 1)
+                {/* test: {this.state.taskOrder.map((el, index) => {
                     this.state.taskOrder.splice(index, 1, el.task_id)
-                    console.log (this.state.taskOrder)
-                })}
+                    console.log(this.state.taskOrder)
+                })} */}
 
-
+                test: {this.state.taskOrder}
 
                 <Hidden>
                     <hr />
