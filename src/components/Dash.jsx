@@ -1,6 +1,10 @@
 import React from 'react'
 import axios from 'axios'
+import styled from 'styled-components'
 import Project from './Project'
+
+const Hidden = styled.div`
+display: none`
 
 
 export default class Dash extends React.Component {
@@ -56,10 +60,11 @@ export default class Dash extends React.Component {
                 {this.state.projects.map((projectID, index )=> {
                    //const project ?
                    const project = this.state.projects[index]
-                   console.log(project)
+                //    console.log(project)
+                
                    //const tasks ?
-                   const tasks = this.state.tasks.map(taskId => this.state.tasks)
-                    
+                   const tasks = this.state.tasks.map((taskId, index) => this.state.tasks[index])
+                    console.log(index)
                     return <Project key={project.project_id} project={project} tasks={tasks} />
                 })}
 
@@ -72,7 +77,7 @@ export default class Dash extends React.Component {
 
 
 
-                <div>
+                <Hidden>
                     <hr />
 
                     <h1>tasks:</h1>
@@ -88,7 +93,7 @@ export default class Dash extends React.Component {
                     <br />
 
                     {this.state.projects.map(el => el.title)}
-                </div>
+                </Hidden>
 
 
 

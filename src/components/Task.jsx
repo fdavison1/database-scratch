@@ -11,7 +11,7 @@ export default class Task extends React.Component{
         <div>
 
 
-        
+        {this.props.task.content}
 
 
         </div>
