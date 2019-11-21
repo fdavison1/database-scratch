@@ -14,6 +14,8 @@ app.get('/api/taskOrder', c.getTaskOrder)
 
 app.get('/api/projects', c.getProjects)
 
+app.put('/api/tasks', c.updateTasks)
+
 
 massive(CONNECTION_STRING).then(databaseConnection => {
     app.set('db', databaseConnection)
