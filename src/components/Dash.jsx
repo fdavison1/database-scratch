@@ -3,33 +3,36 @@ import axios from 'axios'
 import Project from './Project'
 
 
-export default class Dash extends React.Component{
+export default class Dash extends React.Component {
     state = {
         tasks: [],
         projects: []
     }
 
+    componentDidMount() {
+        this.getProjects()
+        this.getTasks()
+    }
 
-
-    getTasks(){
+    getTasks() {
         // console.log('fred')
         axios.get('/api/tasks')
-        .then(res => {
-            // console.log(res.data)
-            this.setState({
-                tasks: res.data
+            .then(res => {
+                // console.log(res.data)
+                this.setState({
+                    tasks: res.data
+                })
             })
-        })
     }
 
-    getProjects(){
+    getProjects() {
         axios.get('/api/projects')
-        .then(res => {
-            // console.log(res.data)
-            this.setState({
-                projects: res.data
+            .then(res => {
+                // console.log(res.data)
+                this.setState({
+                    projects: res.data
+                })
             })
-        })
     }
 
 
@@ -39,41 +42,59 @@ export default class Dash extends React.Component{
 
 
 
-    render(){
+    render() {
         return (
-        
-
-        
-        <div>
-
-
-        dash
-
-        <Project />
-
-
-
-
             <div>
-                <hr/>
-            
-            <button
-            onClick={() => this.getTasks()}
-            >get tasks</button>
-            <br/>
-            tasks:{this.state.tasks.map(el => el.content)}
-            <br/>
-            <button
-            onClick={()=> this.getProjects()}>get projects</button>
-            <br/>
-            projects:{this.state.projects.map(el => el.title)}
+
+
+                {(this.state.projects.length > 0) && 
+
+                // <h1>test:{this.state.projects.length}</h1>}
+
+                <div>
+
+                {this.state.projects.map((projectID, index )=> {
+                   //const project ?
+                   const project = this.state.projects[index]
+                   console.log(project)
+                   //const tasks ?
+                   const tasks = this.state.tasks.map(taskId => this.state.tasks)
+                    
+                    return <Project key={project.project_id} project={project} tasks={tasks} />
+                })}
+
+                </div>} 
+
+                
+        
+
+
+
+
+
+                <div>
+                    <hr />
+
+                    <h1>tasks:</h1>
+                    <button
+                        onClick={() => this.getTasks()}
+                    >get tasks</button>
+                    <br />
+                    {this.state.tasks.map(el => el.content)}
+                    <br />
+                    <h1>projects:</h1>
+                    <button
+                        onClick={() => this.getProjects()}>get projects</button>
+                    <br />
+
+                    {this.state.projects.map(el => el.title)}
+                </div>
+
+
+
+
+
             </div>
-
-
-
-
-
-        </div>
 
 
 

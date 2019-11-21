@@ -11,9 +11,9 @@ export default class Project extends React.Component{
         
         <div>
 
-
-        project
-            <Task />
+            {this.props.project.title}
+        
+            
 
         </div>
         )
