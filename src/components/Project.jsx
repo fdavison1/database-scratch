@@ -33,7 +33,7 @@ export default class Project extends React.Component {
                             {...provided.droppableProps}
                         >
 
-                            {tasks.map((task, index) => <Task key={task.task_id} task={task} index={index}/>)}
+                            {tasks.map((task, index) => <Task key={task.task_id} task={task} index={index} tasks={tasks}/>)}
                             {provided.placeholder}
                         </TaskList>
 

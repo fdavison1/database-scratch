@@ -24,25 +24,20 @@ module.exports = {
             })
     },
     updateTasks: (req, res) => {
-        // console.log(req.body)
-        // console.log(req.body[0])
-        // return console.log(req.body[0].task_id)
-        // return console.log(req.body.length)
-        // console.log(req.body)
-        // return
         const db = req.app.get('db')
-        const { task_id, droppable_id } = req.body
-        // console.log(task_id, droppable_id)
-        // return
-        db.update_task( task_id, droppable_id)
-        .then(result => {
-            console.log(result)
-            // res.status(200).send(result)
+
+        // console.log(req.body.id, req.body.droppable)
+
+        const { id, droppable } = req.body
+
+        db.update_task([id, droppable]).then(result => {
+            // console.log(id, droppable)
+            res.status(200).send(result)
         })
-         },
-        // updateTaskOrder: (req, res) => {
-        //     const db = req.app.get('db')
-        //     const { task_id, droppable_id}
-        //     db.update_taskorder()
-        // }
+       
+
+
+
+    }
+       
     }

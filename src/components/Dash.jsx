@@ -11,20 +11,15 @@ display: none`
 export default class Dash extends React.Component {
     state = {
         tasks: [],
-        taskOrder: [],
+        taskOrder: [1, 2, 3, 4, 5, 6],
         projects: []
     }
 
     componentDidMount() {
         this.getProjects()
         this.getTasks()
-        this.getTaskOrder()
         // console.log(this.state.taskOrder)
     }
-
-    // componentDidUpdate(){
-    //     this.getTasks()
-    // }
 
 
     getTasks() {
@@ -48,144 +43,147 @@ export default class Dash extends React.Component {
             })
     }
 
-    getTaskOrder() {
-
-       axios.get('/api/taskOrder')
-            .then(res => {
-
-                res.data.map((el, index) => {
-                    res.data.splice(index, 1, el.task_id)
-                    // console.log(res.data)
-
-                })
-
-                // console.log(res.data)
-                // this.state.taskOrder = res.data
-
-
-
-                this.setState({
-                    taskOrder: res.data
-                })
-                // console.log(this.state.taskOrder)
-            })
-
-
-    }
-
+   
    
 
-    onDragEnd =   result => {
-        // console.log(result)
-        const { destination, source } = result
-        // this.getTaskOrder()
+        onDragEnd =   result => {
+            const { destination, source, draggableId, type } = result
+            if (!destination) {
+                return
+              }
+          
+              if (
+                destination.droppableId === source.droppableId &&
+                destination.index === source.index
+              ) {
+                return
+              }
+
+            //   console.log(source.index, destination.index)
+              const newTaskOrder = Array.from(this.state.taskOrder)
+            //   console.log(newTaskOrder)
+
+              const sourceValue = newTaskOrder.splice(source.index, 1)
+            //   console.log(newTaskOrder)
+            //   console.log(sourceValue)
 
 
-        //no destination or dropped in same place - no action required
-        if (!destination) {
-            return
-        }
-        if (
-            destination.droppableId === source.droppableId &&
-            destination.index === source.index
-        ) {
-            return
-        }
+              newTaskOrder.splice(destination.index, 0, sourceValue[0])
+            //   console.log(newTaskOrder)
 
-        //  this.getTaskOrder()
-        // console.log(this.state.taskOrder)
 
-        // console.log(draggableId)
-        // console.log(this.state.tasks)
-        // const task = this.state.tasks.find(el => el.droppable_id === draggableId)
-        // console.log(task)
 
-        // task.droppable_id = destination.index + 1
-        // console.log(task)
 
-        // if (source.index < destination.index) {
-        //     for (let i = 0; i < task.droppable_id; i++ ){
-        //         console.log(i)
-        //     }
-        // this.getTaskOrder()
-        // console.log(source.index+1, destination.index+1)
+              this.state.taskOrder = newTaskOrder
 
-        // console.log(this.state.taskOrder)
-        const sourceValue = this.state.taskOrder.splice(source.index, 1) //cut out the original value...
-        // console.log(sourceValue)
-        // console.log(this.state.taskOrder)
-        // console.log(draggableId)
-        this.state.taskOrder.splice(destination.index, 0, sourceValue[0])
-        // return console.log(this.state.taskOrder)
 
-        // this.setState({
-        //     taskOrder: this.state.taskOrder
-        // })
-
-        // return console.log(this.state.tasks)
-        for (let i=0; i < this.state.taskOrder.length; i++){
+            this.setState({
+                taskOrder: this.state.taskOrder
+            })
+           
+            // console.log(this.state.taskOrder[0], 
+            //     this.state.taskOrder[1],
+            //     this.state.taskOrder[2],
+            //     this.state.taskOrder[3],
+            //     this.state.taskOrder[4] ,
+            //     this.state.taskOrder[5])
             
-            // console.log("task order index "+i)
-            // console.log(this.state.tasks[i].droppable_id)
-            // console.log(this.state.taskOrder[i])
-            // if (+this.state.tasks[i].droppable_id !== +this.state.taskOrder[i])
-            // {
-                this.state.tasks[i].droppable_id = this.state.taskOrder[i]
-                    // return console.log(this.state.tasks[i])
-                axios.put('/api/tasks', this.state.tasks[i])
-                .then(res => {
-                // console.log(res.data)
-                    this.setState({
-                        tasks: res.data
-                    })
-                    // console.log(this.state.tasks)
-                })
-            // }
-        }
-            // console.log(this.state.taskOrder)
-            // console.log(this.state.tasks[0].droppable_id, 
-            //     this.state.tasks[1].droppable_id, 
-            //     this.state.tasks[2].droppable_id, 
-            //     this.state.tasks[3].droppable_id, 
-            //     this.state.tasks[4].droppable_id, 
-            //     this.state.tasks[5].droppable_id)
+            //     console.log(this.state.tasks[0].droppable_id,
+            //         this.state.tasks[1].droppable_id,
+            //         this.state.tasks[2].droppable_id,
+            //         this.state.tasks[3].droppable_id,
+            //         this.state.tasks[4].droppable_id,
+            //         this.state.tasks[5].droppable_id)
             
+            
+            const newTasks = Array.from(this.state.tasks)
+            // console.log(newTasks)
+            
+            for (let i = 0; i < this.state.taskOrder.length; i++)
+            {
+                newTasks[i].droppable_id = this.state.taskOrder[i]
+                // newTasks[i].content = this.state.tasks[sourceValue].content
 
+                // console.log(this.state.tasks[i].droppable_id)
+            }
+
+
+            this.setState({
+                tasks: newTasks
+            })
+
+            // console.log(this.state.tasks[0].droppable_id, this.state.taskOrder[0])
+            // console.log(this.state.tasks[1].droppable_id, this.state.taskOrder[1])
+            // console.log(this.state.tasks[2].droppable_id, this.state.taskOrder[2])
+            // console.log(this.state.tasks[3].droppable_id, this.state.taskOrder[3])
+            // console.log(this.state.tasks[4].droppable_id, this.state.taskOrder[4])
+            // console.log(this.state.tasks[5].droppable_id, this.state.taskOrder[5])
+               
             
 
+            // this.setState({
+            //     tasks: this.state.tasks
+            // })
+
+            // console.log(this.state.tasks[0].droppable_id, this.state.taskOrder[0])
+            // console.log(this.state.tasks[1].droppable_id, this.state.taskOrder[1])
+            // console.log(this.state.tasks[2].droppable_id, this.state.taskOrder[2])
+            // console.log(this.state.tasks[3].droppable_id, this.state.taskOrder[3])
+            // console.log(this.state.tasks[4].droppable_id, this.state.taskOrder[4])
+            // console.log(this.state.tasks[5].droppable_id, this.state.taskOrder[5])
+            
+
+                // console.log(this.state.taskOrder[0], 
+                // this.state.taskOrder[1],
+                // this.state.taskOrder[2],
+                // this.state.taskOrder[3],
+                // this.state.taskOrder[4] ,
+                // this.state.taskOrder[5])
+            
+                // console.log(this.state.tasks[0].droppable_id,
+                //     this.state.tasks[1].droppable_id,
+                //     this.state.tasks[2].droppable_id,
+                //     this.state.tasks[3].droppable_id,
+                //     this.state.tasks[4].droppable_id,
+                //     this.state.tasks[5].droppable_id)
 
 
+            
+            
+            // for (let i = 0; i < this.state.tasks.length; i++){
+            //     // console.log(i)
+            //     const id = this.state.tasks[i].task_id
+            //     const droppable = this.state.tasks[i].droppable_id
+            //     // console.log(id, droppable)
+                ////
 
 
+                // axios.post('/api/tasks', {id, droppable}).then(res => 
+                //     this.setState({
+                //         tasks: res.data
+                //     }, () => {
+                //   this.getTasks()})
+                //     )
+                    
+                // }
 
-        // console.log(this.state.tasks)
-        // this.getTasks()
-        // this.getTaskOrder()
+                // this.getTasks()
+
+        }
+                
         
-
-        //axios put for task order???
-
-        // this.setState({
-        //     tasks: this.state.tasks,
-        //     taskOrder: this.state.taskOrder
-        // })
-
-        // axios.put('/api/taskOrder', this.state)
-
-        // for (let i=0; i < this.state.tasks.length; i++){
-        //     if (this.state.tasks[i].task_id !== 
-        //         this.state.tasks[i].droppable_id){
-        //            axios.put('/api/tasks', this.state.tasks[i])
-        //            .then(res => {
-        //                this.setState({
-        //                    tasks: res.data
-        //                })
-        //            }) 
-        //         }
-        // }
-        this.getTasks()
         
-    }
+        
+        
+        
+        updateTasks(id, droppable){
+                    axios.post('/api/tasks', {id, droppable}).then(res => 
+                        this.setState({
+                            tasks: res.data
+                        }))
+                        // this.getTasks()
+                }
+       
 
 
 
@@ -199,8 +197,6 @@ export default class Dash extends React.Component {
                     onDragEnd={this.onDragEnd}>
 
                     {(this.state.projects.length > 0) &&
-
-                        // <h1>test:{this.state.projects.length}</h1>}
 
                         <div>
 
@@ -220,10 +216,10 @@ export default class Dash extends React.Component {
 
 
 
-                <button
+                {/* <button
 
                     onClick={() => this.getTaskOrder()}>taskOrder</button>
-                <br />
+                <br /> */}
                 {/* test: {this.state.taskOrder.map(el => el.task_id)} */}
                 {/* test: {this.state.taskOrder.map((el, index) => {
                     this.state.taskOrder.splice(index, 1, el.task_id)
