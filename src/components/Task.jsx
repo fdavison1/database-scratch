@@ -25,6 +25,10 @@ export default class Task extends React.Component{
 
 
         {this.props.task.content}
+        <br/>
+        task_id: {this.props.task.task_id}
+        <br/>
+        droppable_id: {this.props.task.droppable_id}
 
 
         </Container>

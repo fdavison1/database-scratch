@@ -10,11 +10,13 @@ app.use(express.json())
 
 //endpoint
 app.get('/api/tasks', c.getTasks)
+app.put('/api/tasks', c.updateTasks)
+
 app.get('/api/taskOrder', c.getTaskOrder)
+// app.put('/api/taskOrder', c.updateTaskOrder)
 
 app.get('/api/projects', c.getProjects)
 
-app.put('/api/tasks', c.updateTasks)
 
 
 massive(CONNECTION_STRING).then(databaseConnection => {

@@ -37,11 +37,12 @@ module.exports = {
         db.update_task( task_id, droppable_id)
         .then(result => {
             console.log(result)
-            res.status(200).send(result)
+            // res.status(200).send(result)
         })
-
-      
-
-
-        }
+         },
+        // updateTaskOrder: (req, res) => {
+        //     const db = req.app.get('db')
+        //     const { task_id, droppable_id}
+        //     db.update_taskorder()
+        // }
     }
