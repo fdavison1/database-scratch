@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { DragDropContext } from 'react-beautiful-dnd'
 import Project from './Project'
 
+
 const Hidden = styled.div`
 display: none`
 
@@ -11,7 +12,7 @@ display: none`
 export default class Dash extends React.Component {
     state = {
         tasks: [],
-        taskOrder: [1, 2, 3, 4, 5, 6],
+        taskOrder: [ 1, 2, 3, 4, 5, 6],
         projects: []
     }
 
@@ -23,15 +24,20 @@ export default class Dash extends React.Component {
 
 
     getTasks() {
-        // console.log('fred')
+        
+        console.log('fred')
         axios.get('/api/tasks')
             .then(res => {
                 // console.log(res.data)
                 this.setState({
                     tasks: res.data
                 })
-            })
+            }) 
+
     }
+
+   
+    
 
     getProjects() {
         axios.get('/api/projects')
@@ -41,6 +47,25 @@ export default class Dash extends React.Component {
                     projects: res.data
                 })
             })
+    }
+
+    saveButton(){
+
+        this.setState({
+            tasks: this.state.tasks
+        })
+
+        axios.put('/api/tasks', this.state.tasks).then(res => 
+            this.setState({
+                tasks: res.data
+            }))
+
+            
+        
+            // console.log(this.state.taskOrder)
+        
+      
+
     }
 
    
@@ -75,11 +100,12 @@ export default class Dash extends React.Component {
 
 
               this.state.taskOrder = newTaskOrder
+              console.log(newTaskOrder)
 
 
-            this.setState({
-                taskOrder: this.state.taskOrder
-            })
+            // this.setState({
+            //     taskOrder: this.state.taskOrder
+            // })
            
             // console.log(this.state.taskOrder[0], 
             //     this.state.taskOrder[1],
@@ -102,15 +128,20 @@ export default class Dash extends React.Component {
             for (let i = 0; i < this.state.taskOrder.length; i++)
             {
                 newTasks[i].droppable_id = this.state.taskOrder[i]
-                // newTasks[i].content = this.state.tasks[sourceValue].content
+                // console.log(newTasks[i].droppable_id, this.state.taskOrder[i])
 
-                // console.log(this.state.tasks[i].droppable_id)
+
+
             }
 
+            // this.setState({
+            //     taskOrder: newTaskOrder
+            // })
 
-            this.setState({
-                tasks: newTasks
-            })
+
+            // this.setState({
+            //     tasks: newTasks
+            // })
 
             // console.log(this.state.tasks[0].droppable_id, this.state.taskOrder[0])
             // console.log(this.state.tasks[1].droppable_id, this.state.taskOrder[1])
@@ -226,7 +257,7 @@ export default class Dash extends React.Component {
                     console.log(this.state.taskOrder)
                 })} */}
 
-                test: {this.state.taskOrder}
+                {/* test: {this.state.taskOrder} */}
 
                 <Hidden>
                     <hr />
@@ -247,7 +278,9 @@ export default class Dash extends React.Component {
                 </Hidden>
 
 
-
+                    <button
+                    onClick={()=> this.saveButton()}
+                    >save</button>
 
 
             </div>

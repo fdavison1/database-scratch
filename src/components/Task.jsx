@@ -28,10 +28,10 @@ export default class Task extends React.Component{
             <span>{content.content}</span>
                 <br/>
         {/* {this.props.task.content} */}
-        <br/>
-        {/* <span>task_id: {this.props.task.task_id}</span>    
-        <br/> */}
-        {/* <span>droppable_id: {this.props.task.droppable_id}</span> */}
+        {/* <br/> */}
+        {/* <span>task_id: {this.props.task.task_id}</span>     */}
+        {/* <br/> */}
+        <span>droppable_id: {this.props.task.droppable_id}</span>
 
                 
 
